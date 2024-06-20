@@ -1,26 +1,26 @@
 [
     {
         "email": "teste@gmail.com",
-        "discipline_code": "CIC0097"
+        "discipline_codes": "CIC0097"
     },
     {
         "email": "vanessa@gmail.com",
-        "discipline_code": "CIC0097"
+        "discipline_codes": "CIC0097, CIC0090"
     },
     {
         "email": "bubu@gmail.com",
-        "discipline_code": "CIC0090"
+        "discipline_codes": "CIC0090"
     },
     {
         "email": "vini@gmail.com",
-        "discipline_code": "MAT0040"
+        "discipline_codes": "MAT0040"
     },
     {
         "email": "leo@gmail.com",
-        "discipline_code": "CIC0093"
+        "discipline_codes": "CIC0093, MAT0040, CIC0097"
     },
     {
         "email": "fer@gmail.com",
-        "discipline_code": "CIC0093"
+        "discipline_codes": "CIC0093"
     }
 ]

@@ -1,11 +1,12 @@
 class ClassMember < ApplicationRecord
-  def self.create_by_json(discente_data)
+  has_many :disciplines
 
-    unless ClassMember.exists?()
-      create!(
-        email: discente_data["email"],
-        discipline_code: discente_data["discipline_code"]
-      )
-    end
+  def self.create_by_json(discente_data)
+    return if ClassMember.exists?
+
+    create!(
+      email: discente_data['email'],
+      discipline_codes: discente_data['discipline_codes']
+    )
   end
 end
