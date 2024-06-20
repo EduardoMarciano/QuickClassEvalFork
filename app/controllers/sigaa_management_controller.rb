@@ -20,7 +20,7 @@ class SigaaManagementController < ApplicationController
       flash[:error] = "Não é possível atualizar os dados sem um semestre cadastrado, importe os dados do sistema."
     end
     redirect_to manager_path
-  end  
+  end
 
   def send_email_availables_sign_up
     SignUpAvailable.send_keys_availables_sign_up
@@ -55,6 +55,7 @@ class SigaaManagementController < ApplicationController
 
     json_data.each do |student_data|
       SignUpAvailable.create_by_json(student_data["email"])
+      ClassMember.create_by_json(student_data)
     end
   end
 end
