@@ -19,12 +19,15 @@ Rails.application.routes.draw do
   # Sigaa Management Path
   post '/import_sigaa_data', to: 'sigaa_management#import_sigaa_data', as: 'import_from_sigaa'
   post '/update_sigaa_data', to: 'sigaa_management#update_sigaa_data', as: 'update_sigaa_data'
-  post '/send_email_availables_sign_up', to: 'sigaa_management#send_email_availables_sign_up', as: 'send_email_availables_sign_up'
+  post '/send_email_availables_sign_up', to: 'sigaa_management#send_email_availables_sign_up',
+                                         as: 'send_email_availables_sign_up'
   # View Forms Path
   get '/view_forms', to: 'view_forms#index', as: 'view_forms'
   resources :form_discipline
 
-  resources :templates
+  # Semesters Path
+  get '/semesters', to: 'semesters#index'
+  get '/semesters/current', to: 'semesters#show'
 
   resources :questions, only: [], param: :index do
     member do
