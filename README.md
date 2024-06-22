@@ -49,3 +49,6 @@ Comandos para instalar o framework Rails
 
 ##### Versão Necessária:
     gem install rails -v 7.1.3.4
+
+#### Istalando as Gemas do Projeto
+    bundle install
