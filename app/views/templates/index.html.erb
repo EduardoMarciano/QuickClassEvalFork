@@ -29,7 +29,10 @@
           <p class="card-text">
 
           </p>
-          <%= button_to 'Remover', template_path(template.id), method: :delete, data: { confirm: 'Tem certeza?' }, class:'btn btn-danger' %>
+          <span class="row">
+            <%= link_to 'Ver', template_path(template.id), class:'btn btn-secondary mr-2' %>
+            <%= button_to 'Remover', template_path(template.id), method: :delete, data: { confirm: 'Tem certeza?' }, class:'btn btn-danger' %>
+          </span>
         </div>
       </div>
     </div>

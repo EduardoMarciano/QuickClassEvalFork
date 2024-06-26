@@ -5,13 +5,15 @@ class TemplatesController < ApplicationController
   include ManagerHelper
   include AuthenticationConcern
 
-  # TODO: add authentication with `return unless user_authenticated && admin_user?`
-
   def index
+    return redirect_to root_path unless user_authenticated && admin_user?
+
     @templates = Template.all
   end
 
   def show
+    return redirect_to root_path unless user_authenticated && admin_user?
+
     @template = Template.find(params[:id])
   end
 
