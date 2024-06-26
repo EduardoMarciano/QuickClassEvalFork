@@ -1,4 +1,4 @@
-<%= form_with url: send_forms_from_template_path(:template_id), method: 'post' do |form| %>
+<%= form_with url: send_forms_from_templates_path(:template_id), method: 'post' do |form| %>
     <%= form.collection_select :template_id, @templates, :id, :to_s %>
     <br>
     <div class='list-group'>
