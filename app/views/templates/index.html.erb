@@ -1,7 +1,41 @@
-<h1>Todos os modelos</h1>
+<% if flash[:alert] %>
+  <div class="alert alert-danger">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
 
-<% @templates.each do |template| %>
-    <h2><%= template %></h2>
-    <%= render partial: 'partials/template', locals: { templatelike: template, disabled: true } %>
-    <hr>
+<% if flash[:success] %>
+  <div class="alert alert-success">
+    <%= flash[:success] %>
+  </div>
+<% end %>
+
+<% if flash[:error] %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+
+<h1 class="text-center"><i>Modelos Disponíveis</i></h1>
+<br>
+<%= link_to 'Novo modelo', new_template_path, class:'btn btn-primary' %><br>
+<br>
+<div class="row">
+  <% @templates.each do |template| %>
+    <div class="col-lg-3 col-md-6 mb-3">
+      <div class="card border-primary">
+        <div class="card-body">
+          <h5 class="card-title"><%= template %></h5>
+          <p class="card-text">
+
+          </p>
+          <%= button_to 'Remover', template_path(template.id), method: :delete, data: { confirm: 'Tem certeza?' }, class:'btn btn-danger' %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @templates.empty? %>
+  <p>Nenhum modelo foi encontrado.</p>
 <% end %>

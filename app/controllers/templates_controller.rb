@@ -23,6 +23,16 @@ class TemplatesController < ApplicationController
     Rails.logger.debug("Received: #{params[:questions].inspect}")
   end
 
+  def destroy
+    return redirect_to root_path unless user_authenticated && admin_user?
+
+    params.permit(:authenticity_token, :_method, :controller, :action, :id)
+    return unless params[:_method] == 'delete' && params[:action] == 'destroy' && params[:controller] == 'templates'
+
+    Template.find(params[:id]).delete
+    redirect_to templates_path
+  end
+
   # GET: Page for sending a form to students of a discipline
   def edit_send
     return redirect_to root_path unless user_authenticated && admin_user?
