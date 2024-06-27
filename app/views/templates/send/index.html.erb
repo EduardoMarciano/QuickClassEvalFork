@@ -1,3 +1,7 @@
+<div class="text-end">
+  <%= link_to 'Página do Gestor', manager_path, class:'btn btn-link' %>
+</div>
+
 <%= form_with url: send_forms_from_templates_path(:template_id), method: 'post' do |form| %>
     <%= form.collection_select :template_id, @templates, :id, :to_s %>
     <br>
