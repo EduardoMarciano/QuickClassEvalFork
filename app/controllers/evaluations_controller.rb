@@ -26,16 +26,20 @@ class EvaluationsController < ApplicationController
   end
 
   def show
-    @discipline = Discipline.find(params[:id])
+    discipline = Discipline.find(params[:id])
 
     respond_to do |format|
-      format.html do
-        redirect_to evaluations_path
-      end
+      format_do(format, discipline)
+    end
+  end
 
-      format.csv do
-        send_data @discipline.to_csv, filename: "#{@discipline.name}.csv"
-      end
+  def format_do(format, discipline)
+    format.html do
+      redirect_to evaluations_path
+    end
+
+    format.csv do
+      send_data discipline.to_csv_no_param, filename: "#{discipline.name}.csv"
     end
   end
 end
