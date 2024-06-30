@@ -81,9 +81,10 @@ RSpec.describe Discipline, type: :model do
       it 'gets info from all specific disciplines from its forms' do
         Semester.create(half: false, year: 2020)
         Professor.create(registration_number: "12345", name: "MARISTELA TERTO DE HOLANDA", department_code: "DEPTO CIÊNCIAS DA COMPUTAÇÃO")
+        Template.create()
 
         Discipline.create(name: "OAC", code: "CIC1001", professor_registration: "12345", semester_id: 1)
-        Form.create(discipline_id: 1)
+        Form.create(template_id: 1, discipline_id: 1)
 
         disciplines_info = Discipline.all_disciplines_with_eval_info(nil, true)
 
@@ -101,8 +102,10 @@ RSpec.describe Discipline, type: :model do
       it 'returns all disciplines they are registered from its forms' do
         Semester.create(half: false, year: 2020)
         Professor.create(registration_number: "12345", name: "MARISTELA TERTO DE HOLANDA", department_code: "DEPTO CIÊNCIAS DA COMPUTAÇÃO")
+        Template.create()
+        
         Discipline.create(name: "OAC", code: "CIC1001", professor_registration: "12345", semester_id: 1)
-        Form.create(discipline_id: 1)
+        Form.create(template_id: 1, discipline_id: 1)
 
         StudentDiscipline.create(student_email: email, discipline_code: "CIC1001", semester_id: 1)
 
