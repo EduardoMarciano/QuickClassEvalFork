@@ -8,16 +8,18 @@ class Semester < ApplicationRecord
   end
 
   def self.next_semester_id
-    if Semester.count < 1
-      half = false
-      year = 2020
-    else
-      latest_semester = order(id: :desc).first
+    latest_semester = order(id: :desc).first
 
-      half = !latest_semester.half 
-      year = latest_semester.year + (half && 0 || 1)
-    end
+    half, year = Semester.get_half_year(latest_semester)
+
     create_new_semester(half, year)
+  end
+
+  def self.get_half_year(latest_semester)
+    half = count < 1 ? false : !latest_semester.half
+    year = !(count >= 1) ? 2020 : latest_semester.year + (half && 0 || 1)
+
+    return half, year
   end
 
   def self.create_new_semester(half, year)

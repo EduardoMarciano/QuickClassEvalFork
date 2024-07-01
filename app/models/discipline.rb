@@ -69,7 +69,7 @@ class Discipline < ApplicationRecord
   end 
 
   def self.to_csv(csv)
-    Discipline.all.each do |discipline|
+    all.each do |discipline|
       discipline.to_csv(csv)
     end
   end
@@ -77,13 +77,13 @@ class Discipline < ApplicationRecord
   def to_csv_no_param
     CSV.generate(headers: true, col_sep: ";") do |csv|
       self.send_csv(csv)
-      #self.forms.to_csv(csv)
+      self.forms.to_csv(csv)
     end
   end
 
   def to_csv(csv)
     send_csv(csv)
-    #self.forms.to_csv(csv)
+    self.forms.to_csv(csv)
   end
   
   def send_csv(csv)
