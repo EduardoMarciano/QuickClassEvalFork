@@ -14,21 +14,19 @@ class Question < ApplicationRecord
     true
   end
 
-  def self.to_csv(csv)
+  def self.to_csv(csv, line, form)
     all.each_with_index do |question, index|
-      question.to_csv(csv, index)
+      question.to_csv(csv, index, line, form)
     end
   end
 
-  def to_csv(csv, index)
-    send_csv(csv, index)
-  end
+  def to_csv(csv, index, line, form)
+    answers = self.answers.pluck(:answer).join(", ")
+    answers_line = (answers == "") ? "" : answers
 
-  def send_csv(csv, index)
-    answers_empty = self.answers.empty? ? ['Sem respostas fornecidas.'] : []
-    answers = self.answers.pluck(:answer)
+    line << "#{label}" << answers
 
-    csv << ["#{index + 1}. #{label}"] + answers_empty + answers
+    csv << line if index + 1 == form.questions.length
   end
 
 end

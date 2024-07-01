@@ -28,7 +28,7 @@ class SemestersController < ApplicationController
         end
 
         format.csv do 
-          send_data @semester.to_csv_no_param, filename: "resultados_#{@semester.to_s}.csv"
+          send_data @semester.to_csv_single, filename: "resultados_#{@semester.to_s}.csv"
         end 
 
       end

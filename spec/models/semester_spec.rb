@@ -103,7 +103,7 @@ RSpec.describe Semester, type: :model do
   end
 
   describe '.to_csv' do
-    it 'converts the each semester to a CSV' do
+    it 'converts each semester to a CSV' do
       Semester.create(half: false, year: 2020)
       Semester.create(half: true, year: 2020)
         
@@ -111,13 +111,13 @@ RSpec.describe Semester, type: :model do
     end
   end
 
-  describe '.all_iter' do
+  describe '.each_csv' do
     it 'iterates over each semester and call to_csv' do
       Semester.create(half: false, year: 2020)
       Semester.create(half: true, year: 2020)
 
       CSV.generate(headers: true, col_sep: ";") do |csv|
-        Semester.all_iter(csv)
+        Semester.each_csv(csv)
       end
     end
   end
@@ -125,29 +125,25 @@ RSpec.describe Semester, type: :model do
   describe '#to_csv' do
     it 'converts the semester to a CSV' do
       semester = Semester.create(half: false, year: 2020)
+      Discipline.create(name: "OAC", code: "CIC1001", professor_registration: "12345", semester_id: 1)
+      Template.create()
+      Form.create(template_id: 1, discipline_id: 1)
 
       CSV.generate(headers: true, col_sep: ";") do |csv|
         semester.to_csv(csv)
       end
+
     end
   end
 
-  describe '#to_csv_no_params' do
+  describe '#to_csv_single', focus: true do
     it 'converts the semester to a CSV' do
       semester = Semester.create(half: false, year: 2020)
-      semester.to_csv_no_param
-    end
-  end
-
-  describe '#send_csv' do
-    it 'sends the parameters to the csv' do
-      semester = Semester.create(half: false, year: 2020)
+      Discipline.create(name: "OAC", code: "CIC1001", professor_registration: "12345", semester_id: 1)
+      Template.create()
+      Form.create(template_id: 1, discipline_id: 1)
       
-      CSV.generate(headers: true, col_sep: ";") do |csv|
-        semester.send_csv(csv)
-
-        expect(csv.headers).to eq(["1-2020", "Sem disciplinas."])
-      end
+      semester.to_csv_single
     end
   end
 

@@ -39,7 +39,7 @@ class EvaluationsController < ApplicationController
     end
 
     format.csv do
-      send_data discipline.to_csv_no_param, filename: "#{discipline.name}.csv"
+      send_data discipline.to_csv_single, filename: "#{discipline.name}.csv"
     end
   end
 end

@@ -41,12 +41,13 @@ RSpec.describe Question, type: :model do
   end
 
   describe '.to_csv' do
-    it 'converts the each question to a CSV' do
+    it 'converts each question to a CSV' do
       Question.create(input: "etc", label: "test")
       Question.create(input: "more", label: "tests")
+      form = Form.create()
       
       CSV.generate(headers: true, col_sep: ";") do |csv|
-        Question.to_csv(csv)
+        Question.to_csv(csv, [], form)
       end
     end
   end
@@ -54,23 +55,12 @@ RSpec.describe Question, type: :model do
   describe '#to_csv' do
     it 'converts the question to a CSV' do
       question = Question.create(input: "more", label: "tests")
+      form = Form.create()
 
       CSV.generate(headers: true, col_sep: ";") do |csv|
-        question.to_csv(csv, 0)
+        question.to_csv(csv, 0, [], form)
       end
     end
-  end
-
-  describe '#send_csv' do
-    it 'sends the parameters to the csv' do
-      question = Question.create(input: "more", label: "tests")
-
-      CSV.generate(headers: true, col_sep: ";") do |csv|
-        question.send_csv(csv, 0)
-
-        expect(csv.headers).to eq(["1. tests", "Sem respostas fornecidas."])
-      end
-    end   
   end
 
 end

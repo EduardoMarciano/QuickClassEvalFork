@@ -4,19 +4,15 @@ class Form < ApplicationRecord
   belongs_to :discipline
   before_create :import_template_data
 
-  def self.to_csv(csv)
+  def self.to_csv(csv, line)
     all.each do |form|
-      form.to_csv(csv)
+      form.to_csv(csv, line)
     end
   end
 
-  def to_csv(csv)
-    send_csv(csv)
-    self.questions.to_csv(csv)
-  end
-
-  def send_csv(csv)
-    csv << ["Formulário #{self.id}"]
+  def to_csv(csv, line)
+    line << "#{template_id}"
+    self.questions.to_csv(csv, line.dup, self)
   end
 
   private
