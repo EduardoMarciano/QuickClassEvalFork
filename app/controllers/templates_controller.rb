@@ -29,7 +29,10 @@ class TemplatesController < ApplicationController
     template = Template.create
     params[:questions].each do |question|
       question = question.permit(:label, :description, :type, :format)
+      next if !question[:label] || question[:label] == ''
+
       question[:description] = nil unless question[:description] != ''
+
       case question[:type]
       when 'MultipleChoiceQuestion'
         throw 'Invalid format' unless question[:format].present?
@@ -41,7 +44,7 @@ class TemplatesController < ApplicationController
         TextInputQuestion.create formlike: template, label: question[:label], description: question[:description]
       else
         flash[:error] = 'Tipo de pergunta inválido'
-        return redirect_to new_template_path
+        return redirect_to templates_path
       end
     end
     flash[:success] = 'Modelo de formulário criado com sucesso'
