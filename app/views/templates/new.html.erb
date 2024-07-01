@@ -7,6 +7,7 @@
             <%= question_form.text_field :label, name: 'questions[][label]' %><br>
             <%= question_form.label :description, 'Descrição:' %>
             <%= question_form.text_area :description, name: 'questions[][description]' %><br>
+            <%= question_form.hidden_field :type, value:'TextInputQuestion', name: 'questions[][type]' %><br>
         <% end %>
     </div>
     <button type="button" id="add-question" class="btn btn-success rounded-circle font-weight-bold">
@@ -29,7 +30,7 @@
         var labelInput = document.createElement("input");
         labelInput.setAttribute('type', 'text');
         labelInput.setAttribute('name', 'questions[][label]');
-        labelInput.setAttribute('id', 'question_label'); // Ensure the ID matches the 'for' attribute of the label
+        labelInput.setAttribute('id', 'question_label');
 
         // Create label for the description textarea
         var descriptionTextareaLabel = document.createElement("label");
@@ -38,7 +39,13 @@
 
         var descriptionTextarea = document.createElement("textarea");
         descriptionTextarea.setAttribute('name', 'questions[][description]');
-        descriptionTextarea.setAttribute('id', 'question_description'); // Ensure the ID matches the 'for' attribute of the label
+        descriptionTextarea.setAttribute('id', 'question_description');
+
+        // Hidden input for question type
+        var typeHiddenInput = document.createElement("input");
+        typeHiddenInput.setAttribute('type', 'hidden');
+        typeHiddenInput.setAttribute('name', 'questions[][type]');
+        typeHiddenInput.setAttribute('value', 'TextInputQuestion');
 
         container.appendChild(labelInputLabel);
         container.appendChild(labelInput);
@@ -46,6 +53,7 @@
         container.appendChild(descriptionTextareaLabel);
         container.appendChild(descriptionTextarea);
         container.appendChild(document.createElement("br"));
+        container.appendChild(typeHiddenInput);
     });
 });
 </script>
