@@ -11,6 +11,12 @@ class TemplatesController < ApplicationController
     @templates = Template.all
   end
 
+  def new
+    return redirect_to root_path unless user_authenticated && admin_user?
+
+    @template = Template.new
+  end
+
   def show
     return redirect_to root_path unless user_authenticated && admin_user?
 
@@ -18,7 +24,32 @@ class TemplatesController < ApplicationController
   end
 
   def create
-    Rails.logger.debug("Received: #{params[:questions].inspect}")
+    return redirect_to root_path unless user_authenticated && admin_user?
+
+    template = Template.create
+    params[:questions].each do |question|
+      question = question.permit(:label, :description, :type, :format)
+      next if !question[:label] || question[:label] == ''
+
+      question[:description] = nil unless question[:description] != ''
+
+      case question[:type]
+      when 'MultipleChoiceQuestion'
+        next unless question[:format].present?
+
+        MultipleChoiceQuestion.create formlike: template,
+                                      label: question[:label],
+                                      description: question[:description],
+                                      format: question[:format]
+      when 'TextInputQuestion'
+        TextInputQuestion.create formlike: template, label: question[:label], description: question[:description]
+      else
+        flash[:error] = 'Tipo de pergunta inválido'
+        return redirect_to templates_path
+      end
+    end
+    flash[:success] = 'Modelo de formulário criado com sucesso'
+    redirect_to templates_path
   end
 
   def update

@@ -49,33 +49,40 @@ class Semester < ApplicationRecord
   end
 
   def self.to_csv
-    CSV.generate(headers: true, col_sep: ";") do |csv|
-      Semester.all_iter(csv)
+    CSV.generate(headers: true, col_sep: "; ") do |csv|
+      do_headers(csv, Discipline.all, true)
+      each_csv(csv)
     end
   end
 
-  def self.all_iter(csv)
+  def self.do_headers(csv, disciplines, flag)
+    max_questions = Form.where(discipline_id: disciplines).joins(:questions).group('id').order('COUNT(questions.id) DESC').limit(1).count('questions.id').first
+    question_answers = %w[Questão Respostas] * (max_questions.nil? ? 0 : max_questions.last)
+
+    csv << (flag ? %w[Semestre Disciplina Template] : %w[Disciplina Template]) + question_answers
+  end
+
+  def self.each_csv(csv)
     Semester.all.each { |semester| semester.to_csv(csv) }
   end
 
   def to_csv(csv)
-    self.send_csv(csv)
-    self.get_disciplines.to_csv(csv)
+    line = [self.to_s]
+    self.get_disciplines.to_csv(csv, line.dup)
   end
 
-  def to_csv_no_param
-    csv = CSV.generate(headers: true, col_sep: ";") do |csv|
-      self.send_csv(csv)
-      self.get_disciplines.to_csv(csv)
+  def to_csv_single
+    CSV.generate(headers: true, col_sep: "; ") do |csv|
+      disciplines = self.get_disciplines
+      line = []
+
+      Semester.do_headers(csv, disciplines, false)
+      disciplines.to_csv(csv, line)
     end
   end
 
-  def send_csv(csv)
-    csv << [self.to_s] + (self.get_disciplines.empty? ? ["Sem disciplinas."] : [])
-  end
-
   def get_disciplines
-    Discipline.where(semester_id: self.id)
+    Discipline.where(semester_id: id)
   end
 
   def self.find_by_id(id) 

@@ -31,11 +31,12 @@
         <div class="card-body">
           <h5 class="card-title"><%= template %></h5>
           <p class="card-text">
-
+            <b>Criado em:</b> <%= template.created_at.strftime('%d/%m/%Y %H:%M') %><br>
+            <b>Questões:</b> <%= template.questions.count %>
           </p>
           <span class="row">
             <%= link_to 'Ver', template_path(template.id), class:'btn btn-secondary mr-2' %>
-            <%= button_to 'Remover', template_path(template.id), method: :delete, data: { confirm: 'Tem certeza?' }, class:'btn btn-danger' %>
+            <%= button_to 'Remover', template_path(template.id), method: :delete, class:'btn btn-danger delete-template-button' %>
           </span>
         </div>
       </div>
@@ -46,3 +47,16 @@
 <% if @templates.empty? %>
   <p>Nenhum modelo foi encontrado.</p>
 <% end %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const deleteButtons = document.querySelectorAll(".delete-template-button");
+    deleteButtons.forEach(function(button) {
+      button.addEventListener("click", function(event) {
+        if (!confirm("Tem certeza que quer deletar este modelo?")) {
+          event.preventDefault();
+        }
+      });
+    });
+  });
+</script>

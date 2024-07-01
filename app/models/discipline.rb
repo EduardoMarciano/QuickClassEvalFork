@@ -68,25 +68,31 @@ class Discipline < ApplicationRecord
     }
   end 
 
-  def self.to_csv(csv)
+  def self.to_csv(csv, line)
     all.each do |discipline|
-      discipline.to_csv(csv)
+      discipline.to_csv(csv, line.dup)
     end
   end
 
-  def to_csv_no_param
-    CSV.generate(headers: true, col_sep: ";") do |csv|
-      self.send_csv(csv)
-      self.forms.to_csv(csv)
+  def to_csv(csv, line)
+    line << "#{code} - #{name}"
+    self.forms.to_csv(csv, line)
+  end
+
+  def do_headers(csv)
+    max_questions = self.forms.joins(:questions).group('id').order('COUNT(questions.id) DESC').limit(1).count('questions.id').first
+    question_answers = %w[Questão Respostas] * (max_questions.nil? ? 0 : max_questions.last)
+
+    csv << %w[Template] + question_answers
+  end
+
+  def to_csv_single
+    CSV.generate(headers: true, col_sep: "; ") do |csv|
+      line = []
+
+      self.do_headers(csv)
+      self.forms.to_csv(csv, line)
     end
   end
 
-  def to_csv(csv)
-    send_csv(csv)
-    self.forms.to_csv(csv)
-  end
-  
-  def send_csv(csv)
-    csv << ["#{code} - #{name}"] + (forms.empty? ? ['Sem formulários.'] : [])
-  end
 end
