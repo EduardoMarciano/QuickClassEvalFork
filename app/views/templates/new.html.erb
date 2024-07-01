@@ -6,11 +6,11 @@
         <% end %>
     </div>
     <div id="add-question-buttons" class="text-center">
-        <button type="button" id="add-textinputquestion" class="btn btn-success font-weight-bold">
-            Texto
+        <button type="button" id="add-textinputquestion" class="btn btn-secondary">
+            + Texto
         </button>
-        <button type="button" id="add-multiplechoicequestion" class="btn btn-secondary font-weight-bold">
-            Múltipla Escolha
+        <button type="button" id="add-multiplechoicequestion" class="btn btn-secondary">
+            + Múltipla Escolha
         </button>
     </div>
     <br><br>
@@ -49,9 +49,11 @@
             typeHiddenInput.setAttribute('value', 'TextInputQuestion');
 
             container.appendChild(labelInputLabel);
+            container.appendChild(document.createElement("br"));
             container.appendChild(labelInput);
             container.appendChild(document.createElement("br"));
             container.appendChild(descriptionTextareaLabel);
+            container.appendChild(document.createElement("br"));
             container.appendChild(descriptionTextarea);
             container.appendChild(document.createElement("br"));
             container.appendChild(typeHiddenInput);
@@ -90,7 +92,7 @@
             // Create label for the format input
             var formatInputLabel = document.createElement("label");
             formatInputLabel.setAttribute('for', 'question_format');
-            formatInputLabel.textContent = 'Opções (delimitar com `|`)';
+            formatInputLabel.textContent = 'Opções (delimitar com `|`) (ex: opção1|opção2|opção3)';
 
             var formatInput = document.createElement("input");
             formatInput.setAttribute('type', 'text');
@@ -98,12 +100,15 @@
             formatInput.setAttribute('id', 'question_format');
 
             container.appendChild(labelInputLabel);
+            container.appendChild(document.createElement("br"));
             container.appendChild(labelInput);
             container.appendChild(document.createElement("br"));
             container.appendChild(descriptionTextareaLabel);
+            container.appendChild(document.createElement("br"));
             container.appendChild(descriptionTextarea);
             container.appendChild(document.createElement("br"));
             container.appendChild(formatInputLabel);
+            container.appendChild(document.createElement("br"));
             container.appendChild(formatInput);
             container.appendChild(typeHiddenInput);
             container.appendChild(document.createElement("hr"));
