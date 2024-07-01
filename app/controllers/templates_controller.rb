@@ -35,7 +35,8 @@ class TemplatesController < ApplicationController
 
       case question[:type]
       when 'MultipleChoiceQuestion'
-        throw 'Invalid format' unless question[:format].present?
+        next unless question[:format].present?
+
         MultipleChoiceQuestion.create formlike: template,
                                       label: question[:label],
                                       description: question[:description],

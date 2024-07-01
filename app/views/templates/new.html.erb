@@ -3,73 +3,110 @@
 <%= form_with model: @template, local: true do |form| %>
     <div id="questions-container">
         <%= form.fields_for :questions, @template.questions.build do |question_form| %>
-            <%= question_form.label :label, 'Título:' %>
-            <%= question_form.text_field :label, name: 'questions[][label]' %><br>
-            <%= question_form.label :description, 'Descrição:' %>
-            <%= question_form.text_area :description, name: 'questions[][description]' %><br>
-            <%= question_form.hidden_field :type, value:'TextInputQuestion', name: 'questions[][type]' %>
-            <hr>
-            <%= question_form.label :label, 'Título:' %>
-            <%= question_form.text_field :label, name: 'questions[][label]' %><br>
-            <%= question_form.label :description, 'Descrição:' %>
-            <%= question_form.text_area :description, name: 'questions[][description]' %><br>
-            <%= question_form.hidden_field :type, value:'MultipleChoiceQuestion', name: 'questions[][type]' %>
-            <!-- Multiple choice options -->
-            <%= question_form.label :format, 'Opções (delimitar com |):' %>
-            <%= question_form.text_field :format, name: 'questions[][format]' %>
         <% end %>
     </div>
-    <span>
-        <button type="button" id="add-textinputquestion" class="btn btn-success rounded-circle font-weight-bold">
-            +
+    <div id="add-question-buttons" class="text-center">
+        <button type="button" id="add-textinputquestion" class="btn btn-success font-weight-bold">
+            Texto
         </button>
-        <button type="button" id="add-multiplechoicequestion" class="btn btn-secondary rounded-circle font-weight-bold">
-            +
+        <button type="button" id="add-multiplechoicequestion" class="btn btn-secondary font-weight-bold">
+            Múltipla Escolha
         </button>
-    </span>
+    </div>
     <br><br>
     <%= form.submit 'Salvar modelo', class: 'btn btn-primary' %>
 <% end %>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-    // Create text input question button
-    document.getElementById('add-textinputquestion').addEventListener('click', function() {
-        var container = document.getElementById('questions-container');
+        // text input question button
+        document.getElementById('add-textinputquestion').addEventListener('click', function() {
+            var container = document.getElementById('questions-container');
 
-        // Create label for the label input
-        var labelInputLabel = document.createElement("label");
-        labelInputLabel.setAttribute('for', 'question_label');
-        labelInputLabel.textContent = 'Título:';
+            // Create label for the label input
+            var labelInputLabel = document.createElement("label");
+            labelInputLabel.setAttribute('for', 'question_label');
+            labelInputLabel.textContent = 'Título';
 
-        var labelInput = document.createElement("input");
-        labelInput.setAttribute('type', 'text');
-        labelInput.setAttribute('name', 'questions[][label]');
-        labelInput.setAttribute('id', 'question_label');
+            var labelInput = document.createElement("input");
+            labelInput.setAttribute('type', 'text');
+            labelInput.setAttribute('name', 'questions[][label]');
+            labelInput.setAttribute('id', 'question_label');
 
-        // Create label for the description textarea
-        var descriptionTextareaLabel = document.createElement("label");
-        descriptionTextareaLabel.setAttribute('for', 'question_description');
-        descriptionTextareaLabel.textContent = 'Descrição:';
+            // Create label for the description textarea
+            var descriptionTextareaLabel = document.createElement("label");
+            descriptionTextareaLabel.setAttribute('for', 'question_description');
+            descriptionTextareaLabel.textContent = 'Descrição';
 
-        var descriptionTextarea = document.createElement("textarea");
-        descriptionTextarea.setAttribute('name', 'questions[][description]');
-        descriptionTextarea.setAttribute('id', 'question_description');
+            var descriptionTextarea = document.createElement("textarea");
+            descriptionTextarea.setAttribute('name', 'questions[][description]');
+            descriptionTextarea.setAttribute('id', 'question_description');
 
-        // Hidden input for question type
-        var typeHiddenInput = document.createElement("input");
-        typeHiddenInput.setAttribute('type', 'hidden');
-        typeHiddenInput.setAttribute('name', 'questions[][type]');
-        typeHiddenInput.setAttribute('value', 'TextInputQuestion');
+            // Hidden input for question type
+            var typeHiddenInput = document.createElement("input");
+            typeHiddenInput.setAttribute('type', 'hidden');
+            typeHiddenInput.setAttribute('name', 'questions[][type]');
+            typeHiddenInput.setAttribute('value', 'TextInputQuestion');
 
-        container.appendChild(labelInputLabel);
-        container.appendChild(labelInput);
-        container.appendChild(document.createElement("br"));
-        container.appendChild(descriptionTextareaLabel);
-        container.appendChild(descriptionTextarea);
-        container.appendChild(document.createElement("br"));
-        container.appendChild(typeHiddenInput);
-        container.appendChild(document.createElement("hr"));
-    });
+            container.appendChild(labelInputLabel);
+            container.appendChild(labelInput);
+            container.appendChild(document.createElement("br"));
+            container.appendChild(descriptionTextareaLabel);
+            container.appendChild(descriptionTextarea);
+            container.appendChild(document.createElement("br"));
+            container.appendChild(typeHiddenInput);
+            container.appendChild(document.createElement("hr"));
+        });
+
+        // multiple choice question button
+        document.getElementById('add-multiplechoicequestion').addEventListener('click', function() {
+            var container = document.getElementById('questions-container');
+
+            // Create label for the label input
+            var labelInputLabel = document.createElement("label");
+            labelInputLabel.setAttribute('for', 'question_label');
+            labelInputLabel.textContent = 'Título';
+
+            var labelInput = document.createElement("input");
+            labelInput.setAttribute('type', 'text');
+            labelInput.setAttribute('name', 'questions[][label]');
+            labelInput.setAttribute('id', 'question_label');
+
+            // Create label for the description textarea
+            var descriptionTextareaLabel = document.createElement("label");
+            descriptionTextareaLabel.setAttribute('for', 'question_description');
+            descriptionTextareaLabel.textContent = 'Descrição';
+
+            var descriptionTextarea = document.createElement("textarea");
+            descriptionTextarea.setAttribute('name', 'questions[][description]');
+            descriptionTextarea.setAttribute('id', 'question_description');
+
+            // Hidden input for question type
+            var typeHiddenInput = document.createElement("input");
+            typeHiddenInput.setAttribute('type', 'hidden');
+            typeHiddenInput.setAttribute('name', 'questions[][type]');
+            typeHiddenInput.setAttribute('value', 'MultipleChoiceQuestion');
+
+            // Create label for the format input
+            var formatInputLabel = document.createElement("label");
+            formatInputLabel.setAttribute('for', 'question_format');
+            formatInputLabel.textContent = 'Opções (delimitar com `|`)';
+
+            var formatInput = document.createElement("input");
+            formatInput.setAttribute('type', 'text');
+            formatInput.setAttribute('name', 'questions[][format]');
+            formatInput.setAttribute('id', 'question_format');
+
+            container.appendChild(labelInputLabel);
+            container.appendChild(labelInput);
+            container.appendChild(document.createElement("br"));
+            container.appendChild(descriptionTextareaLabel);
+            container.appendChild(descriptionTextarea);
+            container.appendChild(document.createElement("br"));
+            container.appendChild(formatInputLabel);
+            container.appendChild(formatInput);
+            container.appendChild(typeHiddenInput);
+            container.appendChild(document.createElement("hr"));
+        });
 });
 </script>
