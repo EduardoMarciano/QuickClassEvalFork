@@ -11,6 +11,12 @@ class TemplatesController < ApplicationController
     @templates = Template.all
   end
 
+  def new
+    return redirect_to root_path unless user_authenticated && admin_user?
+
+    @template = Template.new
+  end
+
   def show
     return redirect_to root_path unless user_authenticated && admin_user?
 
@@ -18,7 +24,13 @@ class TemplatesController < ApplicationController
   end
 
   def create
-    Rails.logger.debug("Received: #{params[:questions].inspect}")
+    return redirect_to root_path unless user_authenticated && admin_user?
+
+    template = Template.create
+    params[:questions].each do |question|
+      question = question.permit(:label, :description)
+      TextInputQuestion.create formlike: template, label: question[:label], description: question[:description]
+    end
   end
 
   def update
