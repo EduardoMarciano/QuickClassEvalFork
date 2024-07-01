@@ -31,7 +31,8 @@
         <div class="card-body">
           <h5 class="card-title"><%= template %></h5>
           <p class="card-text">
-
+            <b>Criado em:</b> <%= template.created_at.strftime('%d/%m/%Y %H:%M') %><br>
+            <b>Questões:</b> <%= template.questions.count %>
           </p>
           <span class="row">
             <%= link_to 'Ver', template_path(template.id), class:'btn btn-secondary mr-2' %>
