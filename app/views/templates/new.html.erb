@@ -7,19 +7,34 @@
             <%= question_form.text_field :label, name: 'questions[][label]' %><br>
             <%= question_form.label :description, 'Descrição:' %>
             <%= question_form.text_area :description, name: 'questions[][description]' %><br>
-            <%= question_form.hidden_field :type, value:'TextInputQuestion', name: 'questions[][type]' %><br>
+            <%= question_form.hidden_field :type, value:'TextInputQuestion', name: 'questions[][type]' %>
+            <hr>
+            <%= question_form.label :label, 'Título:' %>
+            <%= question_form.text_field :label, name: 'questions[][label]' %><br>
+            <%= question_form.label :description, 'Descrição:' %>
+            <%= question_form.text_area :description, name: 'questions[][description]' %><br>
+            <%= question_form.hidden_field :type, value:'MultipleChoiceQuestion', name: 'questions[][type]' %>
+            <!-- Multiple choice options -->
+            <%= question_form.label :format, 'Opções (delimitar com |):' %>
+            <%= question_form.text_field :format, name: 'questions[][format]' %>
         <% end %>
     </div>
-    <button type="button" id="add-question" class="btn btn-success rounded-circle font-weight-bold">
-        +
-    </button>
+    <span>
+        <button type="button" id="add-textinputquestion" class="btn btn-success rounded-circle font-weight-bold">
+            +
+        </button>
+        <button type="button" id="add-multiplechoicequestion" class="btn btn-secondary rounded-circle font-weight-bold">
+            +
+        </button>
+    </span>
     <br><br>
     <%= form.submit 'Salvar modelo', class: 'btn btn-primary' %>
 <% end %>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById('add-question').addEventListener('click', function() {
+    // Create text input question button
+    document.getElementById('add-textinputquestion').addEventListener('click', function() {
         var container = document.getElementById('questions-container');
 
         // Create label for the label input
@@ -54,6 +69,7 @@
         container.appendChild(descriptionTextarea);
         container.appendChild(document.createElement("br"));
         container.appendChild(typeHiddenInput);
+        container.appendChild(document.createElement("hr"));
     });
 });
 </script>

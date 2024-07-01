@@ -28,14 +28,15 @@ class TemplatesController < ApplicationController
 
     template = Template.create
     params[:questions].each do |question|
-      question = question.permit(:label, :description, :type)
+      question = question.permit(:label, :description, :type, :format)
+      question[:description] = nil unless question[:description] != ''
       case question[:type]
       when 'MultipleChoiceQuestion'
         throw 'Invalid format' unless question[:format].present?
         MultipleChoiceQuestion.create formlike: template,
                                       label: question[:label],
                                       description: question[:description],
-                                      format: 'foo|bar|baz' # FIXME: stop hardcoding this
+                                      format: question[:format]
       when 'TextInputQuestion'
         TextInputQuestion.create formlike: template, label: question[:label], description: question[:description]
       else
