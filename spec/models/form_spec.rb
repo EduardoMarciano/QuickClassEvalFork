@@ -33,23 +33,15 @@ RSpec.describe Form, type: :model do
   end
 
   describe '#to_csv' do
-    let(:template) { Template.create! }
-    let(:discipline) { Discipline.create!(name: 'Math', code: 'MATH101', professor_registration: '12345') }
-    let(:form) { Form.create!(template:, discipline:) }
+    let(:form) { Form.create(discipline: Discipline.new) }
+    let(:question) { Question.create(label: 'Question 1', description: 'Description', format: 'text', formlike: form) }
 
-    it 'generates CSV for a form' do
-      csv = CSV.generate(headers: true, col_sep: ';') do |csv|
-        form.to_csv(csv)
-      end
-      expect(csv).to include("Formulário #{form.id}")
-    end
-
-    it 'includes questions in the CSV' do
-      question = Question.create!(label: 'Test Question', formlike: form)
-      csv = CSV.generate(headers: true, col_sep: ';') do |csv|
-        form.to_csv(csv)
-      end
-      expect(csv).to include('Test Question', 'Sem respostas fornecidas.')
+    it 'calls questions.to_csv with duplicated line' do
+      csv = []
+      line = []
+      expect(form.questions).to receive(:to_csv).with(csv, instance_of(Array), form)
+      form.to_csv(csv, line)
+      expect(line).to include("#{form.template_id}")
     end
   end
 
@@ -113,20 +105,19 @@ RSpec.describe Form, type: :model do
     end
   end
 
-  describe 'class methods' do
-    describe '.to_csv' do
-      it 'calls to_csv on each form' do
-        csv = []
-        form1 = Form.create(discipline: Discipline.new)
-        form2 = Form.create(discipline: Discipline.new)
+  describe '.to_csv' do
+    it 'calls to_csv on each form' do
+      csv = []
+      line = []
+      form1 = Form.create(discipline: Discipline.new)
+      form2 = Form.create(discipline: Discipline.new)
 
-        allow(Form).to receive(:all).and_return([form1, form2])
+      allow(Form).to receive(:all).and_return([form1, form2])
 
-        expect(form1).to receive(:to_csv).with(csv)
-        expect(form2).to receive(:to_csv).with(csv)
+      expect(form1).to receive(:to_csv).with(csv, line)
+      expect(form2).to receive(:to_csv).with(csv, line)
 
-        Form.to_csv(csv)
-      end
+      Form.to_csv(csv, line)
     end
   end
 end
