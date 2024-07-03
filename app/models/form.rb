@@ -6,7 +6,7 @@ class Form < ApplicationRecord
 
   def self.to_csv(csv, line)
     all.each do |form|
-      form.to_csv(csv, line)
+      form.to_csv(csv, line.dup)
     end
   end
 

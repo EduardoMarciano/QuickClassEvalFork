@@ -81,16 +81,23 @@ class TemplatesController < ApplicationController
 
     params.permit(:authenticity_token, :commit, :template_id, discipline_ids: [])
 
-    if params[:discipline_ids].nil?
-      flash[:error] = 'Nenhuma disciplina foi selecionada para envio'
-      return redirect_to manager_path
+    if params[:discipline_ids].nil? || params[:discipline_ids] == [""]
+      flash[:error] = 'Nenhuma disciplina foi selecionada para envio.'
+      return redirect_to "/templates/send"
     end
+
+    params[:discipline_ids] = params[:discipline_ids][1..-1]
 
     params[:discipline_ids].each do |discipline_id|
-      Form.create! template: Template.find(params[:template_id]), discipline: Discipline.find(discipline_id)
+      if Form.where(discipline_id: discipline_id, template_id: params[:template_id]) == []
+        Form.create! template: Template.find(params[:template_id]), discipline: Discipline.find(discipline_id)
+      else
+        flash[:error] = "#{Discipline.find(discipline_id).name_detailed} já possui um formulário com este template."
+        return redirect_to "/templates/send"
+      end 
     end
 
-    flash[:success] = 'Formulários enviados com sucesso'
+    flash[:success] = 'Formulários enviados com sucesso.'
     redirect_to manager_path
   end
 end

@@ -1,12 +1,41 @@
+<% if flash[:error] %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+
+<h1> Enviar Formulários </h1> <br>
+
 <div class="text-end">
-  <%= link_to 'Página do Gestor', manager_path, class:'btn btn-link' %>
+  <%= link_to 'Página do Gestor', manager_path %> <br><br>
 </div>
 
 <%= form_with url: send_forms_from_templates_path(:template_id), method: 'post' do |form| %>
-    <%= form.collection_select :template_id, @templates, :id, :to_s %>
-    <br>
-    <div class='list-group'>
-    <%= form.collection_check_boxes :discipline_ids, @disciplines, :id, :name_detailed, class: 'list-group-item', include_hidden: false %>
-    </div>
-    <%= form.submit "Enviar" %>
+  <%= form.collection_select :template_id, @templates, :id, :to_s %>
+  <br><br>
+  <% if Discipline.count > 0 %>
+    <%= form.collection_check_boxes :discipline_ids, @disciplines, :id, :name_detailed do |f| %>
+      <span>
+        <div style="width: 40%">
+          <div style="display:inline-block;"> <%= f.label %> </div> 
+          <div style="float:right;"> <%= f.check_box %> </div> 
+          <br><br>
+        </div>
+      <span>
+    <% end %>
+  <% else %>
+    <h4> Sem disciplinas cadastradas. </h4> <br>
+  <% end %>
+
+  <%= form.submit "Enviar", class: "submit-button" %> <br><br>
 <% end %>
+
+<style>
+.submit-button {
+  background-color: #007FFF;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+}
+</style>
