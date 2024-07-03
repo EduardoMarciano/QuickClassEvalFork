@@ -34,10 +34,10 @@ module AuthenticationConcern
   end
 
   def user_belongs_to?(disciplines)
-    disciplines = [disciplines] unless disciplines.respond_to?('each')
+    disciplines = [disciplines] unless disciplines.respond_to?(:each)
     disciplines.each do |discipline|
-      return true if StudentDiscipline.where(student_email: logged_user.email,
-                                             discipline_code: discipline.code).first
+      return true unless StudentDiscipline.where(student_email: logged_user.email,
+                                                 discipline_code: discipline.code).first.nil?
     end
     false
   end
