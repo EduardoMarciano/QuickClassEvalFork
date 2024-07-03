@@ -1,28 +1,36 @@
 Feature: Reply form
     Scenario: Successfully selecting e viewing the form
-        Given I am an authenticated user of the system
-            And I am seeing the pending forms to fill out
+        Given A manager send a evaluation
+            And I am a student
+            And I am on the evaluations page
+            And I should see at least one evaluation card
 
-            When I select one form
-            And I press "responder"
-        
-            Then I should see a the questions to answer 
-            And I should see a button "enviar"
+            When I press "Avaliar Disciplina"
+            Then I should see a button "Salvar"
+            
+   Scenario: No form to answer
+        Given No manager send a evaluation
+            And I am a student
+            And I am on the evaluations page
+            And I should not see any evaluation cards
 
     Scenario: Successfully filling out and submitting the form
-        Given I am an authenticated user of the system
-            And I already selected form
-            And I already answered all the questions
-
-            When I press "enviar"
-        
-            Then I should see a success message "formulario enviado com sucesso"
+        Given A manager send a evaluation
+            And I am a student
+            And I am on the evaluations page
+            And I press "Avaliar Disciplina"
             
-    Scenario: Partialy filling out and submitting the form
-        Given I am an authenticated user of the system
-            And I already selected form
-            And I have answered some or none of the questions
-
-            When I press "enviar"
+            When I answer all the questions
+            And I press "Salvar"
         
-            Then I should see a error message "não é possivel enviar formulario incompleto"
+            Then I should see "Formulário respondido com sucesso"
+            
+    Scenario: Submitting the form without answer
+        Given A manager send a evaluation
+            And I am a student
+            And I am on the evaluations page
+            And I press "Avaliar Disciplina"
+
+            When I press "Salvar"
+        
+            Then I should not see "formulario enviado com sucesso"
