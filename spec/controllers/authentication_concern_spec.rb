@@ -103,14 +103,14 @@ RSpec.describe DummyController, type: :controller do
   end
 
   describe '#user_belongs_to?' do
-    let(:semester) { Semester.create!(half: false, year: 2024) }
-    let(:discipline) { Discipline.create!(name: 'foo', code: 'DISC456') }
-    let(:student_discipline) do
+    let!(:semester) { Semester.create!(half: false, year: 2024) }
+    let!(:discipline) { Discipline.create!(name: 'foo', code: 'DISC456') }
+    let!(:student_discipline) do
       StudentDiscipline.create!(student_email: user.email,
                                 discipline_code: discipline.code,
                                 semester_id: semester.id)
     end
-    let(:another_discipline) { Discipline.create!(name: 'foo', code: 'DISC457') }
+    let!(:another_discipline) { Discipline.create!(name: 'foo', code: 'DISC457') }
 
     context 'when logged user belongs to the discipline' do
       before do
