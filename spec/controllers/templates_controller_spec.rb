@@ -33,7 +33,7 @@ RSpec.describe TemplatesController, type: :controller do
     let(:discipline2) { Discipline.create(name: 'Discipline 2', code: 'DISC2') }
 
     it 'sends out forms to selected disciplines' do
-      post :send_out_forms, params: { template_id: template.id, discipline_ids: [discipline1.id, discipline2.id] }
+      post :send_out_forms, params: { template_id: template.id, discipline_ids: ["", discipline1.id, discipline2.id] }
       expect(Form.where(template_id: template.id, discipline_id: discipline1.id)).to exist
       expect(Form.where(template_id: template.id, discipline_id: discipline2.id)).to exist
     end
@@ -45,8 +45,8 @@ RSpec.describe TemplatesController, type: :controller do
 
     it 'sets error flash message if no disciplines are selected' do
       post :send_out_forms, params: { template_id: template.id, discipline_ids: [] }
-      expect(flash[:error]).to eq('Nenhuma disciplina foi selecionada para envio')
-      expect(response).to redirect_to(manager_path)
+      expect(flash[:error]).to eq('Nenhuma disciplina foi selecionada para envio.')
+      expect(response).to redirect_to("/templates/send")
     end
 
     it 'redirects to root path if user is not admin' do
