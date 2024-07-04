@@ -23,6 +23,10 @@ When('I send forms') do
   click_button(:commit)
 end
 
+Given(/^(?:I|an administrator) sent forms$/) do
+  step 'I send forms'
+end
+
 When('I send forms wihout checking any classes') do
   step 'I am on the Send page'
   click_button(:commit)
