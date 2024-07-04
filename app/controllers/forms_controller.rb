@@ -25,18 +25,26 @@ class FormsController < ApplicationController
   end
 
   def update
-    params.permit(:authenticity_token, :commit, :id, :_method, questions: {})
-    return redirect_to root_path unless user_authenticated && user_belongs_to?(Form.find(params[:id]).discipline)
+    return redirect_to root_path unless user_belongs_to?(Form.find(params[:id]).discipline)
 
-    questions = params[:questions].reject { |_, v| v == '' }
+    answer(params[:questions]) unless params[:questions].nil?
+
+    flash[:success] = 'Formulário respondido com sucesso'
+    redirect_to evaluations_path
+  end
+
+  private
+
+  def answer(questions)
+    return false unless questions.respond_to?(:each)
+
+    valids = {}
     questions.each do |question_id, answer|
       question = Question.find(question_id)
       next unless question.valid_answer?(answer)
 
-      Answer.create! answer:, user: logged_user, question:
+      Answer.create! question:, answer:, user: logged_user
     end
-
-    flash[:success] = 'Formulário respondido com sucesso' unless questions.empty?
-    redirect_to evaluations_path
+    valids
   end
 end

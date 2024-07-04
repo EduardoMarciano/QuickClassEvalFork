@@ -56,7 +56,7 @@ Já para instalar o Rails na versão 7.1.3.4, execute o seguinte comando:
 
 Após esses passos, você deve ver algo como:
 #### Verificação da instalação:
-    Rails 7.1.3.4
+    rails 7.1.3.4
 
 Caso contrário, recomendo depuração do log de erros e leitura da documentação oficial do framework.
 
@@ -126,11 +126,33 @@ OBS: Esses são os usuários que você irá conseguir cadastrar no sistema após
 
 Todos possuem a mesma chave de cadastro: TOKEN_587.
 
-## Testes
-Para executar o cucumber, basta rodar
-### cucumber
-    cucumber features
+## Testes Automatizados
+Os testes da aplicação consistem em testes unitários, funcionais, de integração e de aceitação.
 
-Para rodar os testes em Rspec, execute o comando:
-### Rspec
+### Testes Unitários e Funcionais
+Os testes unitários e funcionais foram desenvolvidos utilizando o RSpec. Para rodar esses testes, utilize o seguinte comando:
+#### Rspec
     sudo rspec
+
+### Testes de Integração e de Aceitação
+Os testes de integração e de aceitação foram desenvolvidos utilizando o Cucumber. Para rodar esses testes, utilize o seguinte comando:
+#### cucumber
+    bundle exec cucumber features
+
+## Ferramentas de Análise e Documentação de Código
+O projeto utiliza asseguintes ferramentas para desempenhar esse papel: RDoc, SimpleCov e RubyCritic.
+
+### Documentação
+#### RDoc
+    rdoc
+A documentação será criada na pasta doc na raiz do projeto.
+
+### Análise de Cobertura
+#### SimpleCov
+    sudo rspec
+Após a execução dos testes o relatório de cobertura será gerado na pasta coverage.
+
+### Análise de Qualidade
+#### RubyCritic
+    bundle exec rubycritic
+O relatório será gerado na pasta rubycritic_report.

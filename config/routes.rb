@@ -30,9 +30,7 @@ Rails.application.routes.draw do
   # Templates/forms
   resources :templates do
     get 'send', to: 'templates#edit_send', on: :collection, as: :to_send
-    member do
-      post 'send', to: 'templates#send_out_forms', as: :send_forms_from
-    end
+    post 'send', to: 'templates#send_out_forms', on: :collection, as: :send_forms_from
   end
   resources :forms
 

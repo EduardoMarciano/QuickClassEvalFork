@@ -225,6 +225,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
+    metric_fu-Saikuro (1.1.3)
     mini_mime (1.1.5)
     minitest (5.23.1)
     msgpack (1.7.2)
@@ -431,9 +432,11 @@ DEPENDENCIES
   faker
   importmap-rails
   jbuilder
+  metric_fu-Saikuro
   puma (>= 5.0)
   rails (~> 7.1.3.4)
   rails-controller-testing
+  rdoc
   redis (>= 4.0.1)
   rspec-rails
   rubocop

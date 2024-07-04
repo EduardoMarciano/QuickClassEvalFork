@@ -72,3 +72,5 @@ tmp/cache/bootsnap/load-path-cache
 /tmux.sh
 
 /.rake_tasks~
+
+/doc

@@ -10,16 +10,19 @@ class Semester < ApplicationRecord
   def self.next_semester_id
     latest_semester = order(id: :desc).first
 
-    if latest_semester.nil?
-      half = 0
-      year = 2020
-    elsif latest_semester.half
-      half = 0
-      year = latest_semester.year + 1
-    else
-      half = 1
-      year = latest_semester.year
-    end
+    half, year = Semester.get_half_year(latest_semester)
+
+    create_new_semester(half, year)
+  end
+
+  def self.get_half_year(latest_semester)
+    half = count < 1 ? false : !latest_semester.half
+    year = !(count >= 1) ? 2020 : latest_semester.year + (half && 0 || 1)
+
+    return half, year
+  end
+
+  def self.create_new_semester(half, year)
     new_semester = create(half:, year:)
     new_semester.id
   end
@@ -27,15 +30,15 @@ class Semester < ApplicationRecord
   def self.current_semester
     latest_semester = order(id: :desc).first
     if latest_semester
-      half = if latest_semester.half
-               2
-             else
-               1
-             end
-      "#{latest_semester.year}.#{half}."
+      half = latest_semester.next_half
+      "#{latest_semester.year}.#{half && 1 || 2}."
     else
       'Sem semestre cadastrado.'
     end
+  end
+
+  def next_half
+    !self.half
   end
 
   def self.current_semester_id
@@ -46,58 +49,43 @@ class Semester < ApplicationRecord
   end
 
   def self.to_csv
-    CSV.generate(headers: true, col_sep: ";")  do|csv|
-      all.each do |semester|
-        disciplines = Discipline.where(semester_id: semester.id)
-        disciplines_empty = disciplines.empty? ? ["Sem disciplinas."] : []
-
-        csv << [semester.to_s] + disciplines_empty
-
-        disciplines.each do |discipline|
-          forms_empty = discipline.forms.empty? ? ['Sem formulários.'] : []
-          csv << ["#{discipline.code} - #{discipline.name}"] + forms_empty
-
-          discipline.forms.each do |form|
-
-            csv << ["Formulário #{form.id}"]
-
-            form.questions.each_with_index do |question, index|
-              answers_empty = question.answers.empty? ? ['Sem respostas fornecidas.'] : []
-              answers = question.answers.pluck(:answer)
-              csv << ["#{index + 1}. #{question.label}"] + answers_empty + answers
-            end
-          end
-        end
-      end
+    CSV.generate(headers: true, col_sep: "; ") do |csv|
+      do_headers(csv, Discipline.all, true)
+      each_csv(csv)
     end
   end
 
-  def to_csv
-    CSV.generate(headers: true, col_sep: ";") do |csv|
-      disciplines = Discipline.where(semester_id: self.id)
-      disciplines_empty = disciplines.empty? ? ["Sem disciplinas."] : []
+  def self.do_headers(csv, disciplines, flag)
+    max_questions = Form.where(discipline_id: disciplines).joins(:questions).group('id').order('COUNT(questions.id) DESC').limit(1).count('questions.id').first
+    question_answers = %w[Questão Respostas] * (max_questions.nil? ? 0 : max_questions.last)
 
-      csv << [self.to_s] + disciplines_empty
+    csv << (flag ? %w[Semestre Disciplina Template] : %w[Disciplina Template]) + question_answers
+  end
 
-      disciplines.each do |discipline|
-        forms_empty = discipline.forms.empty? ? ['Sem formulários.'] : []
-        csv << ["#{discipline.code} - #{discipline.name}"] + forms_empty
+  def self.each_csv(csv)
+    Semester.all.each { |semester| semester.to_csv(csv) }
+  end
 
-        discipline.forms.each do |form|
+  def to_csv(csv)
+    line = [self.to_s]
+    self.get_disciplines.to_csv(csv, line.dup)
+  end
 
-          csv << ["Formulário #{form.id}"]
+  def to_csv_single
+    CSV.generate(headers: true, col_sep: "; ") do |csv|
+      disciplines = self.get_disciplines
+      line = []
 
-          form.questions.each_with_index do |question, index|
-            answers_empty = question.answers.empty? ? ['Sem respostas fornecidas.'] : []
-            answers = question.answers.pluck(:answer)
-            csv << ["#{index + 1}. #{question.label}"] + answers_empty + answers
-          end
-        end
-      end
+      Semester.do_headers(csv, disciplines, false)
+      disciplines.to_csv(csv, line)
     end
   end
 
-  def self.find_by_id(id)
+  def get_disciplines
+    Discipline.where(semester_id: id)
+  end
+
+  def self.find_by_id(id) 
     find(id)
   end
 

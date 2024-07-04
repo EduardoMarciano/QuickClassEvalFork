@@ -81,4 +81,89 @@ RSpec.describe Semester, type: :model do
       end
     end
   end
+
+  describe 'to_s' do
+    context 'when semester is not half' do
+      it 'returns 1 plus the year of the semester' do
+        semester = Semester.create(year: 2023, half: false)
+
+        expect(semester.to_s.split('-')[0]).to eq('1')
+        expect(semester.to_s.split('-')[1]).to eq('2023')
+      end
+    end
+
+    context 'when semester is half' do
+      it 'returns 2 plus the year of the semester' do
+        semester = Semester.create(year: 2023, half: true)
+
+        expect(semester.to_s.split('-')[0]).to eq('2')
+        expect(semester.to_s.split('-')[1]).to eq('2023')
+      end
+    end
+  end
+
+  describe '.to_csv' do
+    it 'converts each semester to a CSV' do
+      Semester.create(half: false, year: 2020)
+      Semester.create(half: true, year: 2020)
+        
+      Semester.to_csv
+    end
+  end
+
+  describe '.each_csv' do
+    it 'iterates over each semester and call to_csv' do
+      Semester.create(half: false, year: 2020)
+      Semester.create(half: true, year: 2020)
+
+      CSV.generate(headers: true, col_sep: ";") do |csv|
+        Semester.each_csv(csv)
+      end
+    end
+  end
+
+  describe '#to_csv' do
+    it 'converts the semester to a CSV' do
+      semester = Semester.create(half: false, year: 2020)
+      Discipline.create(name: "OAC", code: "CIC1001", professor_registration: "12345", semester_id: 1)
+      Template.create()
+      Form.create(template_id: 1, discipline_id: 1)
+
+      CSV.generate(headers: true, col_sep: ";") do |csv|
+        semester.to_csv(csv)
+      end
+
+    end
+  end
+
+  describe '#to_csv_single', focus: true do
+    it 'converts the semester to a CSV' do
+      semester = Semester.create(half: false, year: 2020)
+      Discipline.create(name: "OAC", code: "CIC1001", professor_registration: "12345", semester_id: 1)
+      Template.create()
+      Form.create(template_id: 1, discipline_id: 1)
+      
+      semester.to_csv_single
+    end
+  end
+
+  describe '#get_disciplines' do
+    it 'returns the disciplines associated to given semester' do
+      semester = Semester.create(half: false, year: 2020)
+
+      discipline1 = Discipline.create(name: "Banco de Dados", semester_id: 1)
+      discipline2 = Discipline.create(name: "OAC", semester_id: 1)
+
+      expect(semester.get_disciplines).to eq([discipline1, discipline2])
+    end
+  end
+
+  describe '.find_by_id' do
+    it 'returns the semesters by the specified id' do
+      semester1 = Semester.create(half: false, year: 2020)
+      semester2 = Semester.create(half: true, year: 2020)
+
+      expect(Semester.find_by_id(2)).to eq(semester2)
+    end
+  end
 end
