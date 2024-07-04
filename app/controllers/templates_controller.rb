@@ -29,24 +29,8 @@ class TemplatesController < ApplicationController
     template = Template.create
     params[:questions].each do |question|
       question = question.permit(:label, :description, :type, :format)
-      next if !question[:label] || question[:label] == ''
-
       question[:description] = nil unless question[:description] != ''
-
-      case question[:type]
-      when 'MultipleChoiceQuestion'
-        next unless question[:format].present?
-
-        MultipleChoiceQuestion.create formlike: template,
-                                      label: question[:label],
-                                      description: question[:description],
-                                      format: question[:format]
-      when 'TextInputQuestion'
-        TextInputQuestion.create formlike: template, label: question[:label], description: question[:description]
-      else
-        flash[:error] = 'Tipo de pergunta inválido'
-        return redirect_to templates_path
-      end
+      new_question(template, question)
     end
     flash[:success] = 'Modelo de formulário criado com sucesso'
     redirect_to templates_path
@@ -92,5 +76,26 @@ class TemplatesController < ApplicationController
 
     flash[:success] = 'Formulários enviados com sucesso'
     redirect_to manager_path
+  end
+
+  private
+
+  def new_question(template, question)
+    case question[:type]
+    when 'MultipleChoiceQuestion'
+      return unless question[:format].present?
+
+      created = MultipleChoiceQuestion.create formlike: template,
+                                              label: question[:label],
+                                              description: question[:description],
+                                              format: question[:format]
+    when 'TextInputQuestion'
+      created = TextInputQuestion.create formlike: template, label: question[:label],
+                                         description: question[:description]
+    else
+      flash[:error] = 'Tipo de pergunta inválido'
+      redirect_to templates_path
+    end
+    created
   end
 end
