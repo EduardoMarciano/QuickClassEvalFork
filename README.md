@@ -140,7 +140,7 @@ Os testes de integração e de aceitação foram desenvolvidos utilizando o Cucu
     bundle exec cucumber features
 
 ## Ferramentas de Análise e Documentação de Código
-O projeto utiliza asseguintes ferramentas para desempenhar esse papel: RDoc, SimpleCov, RubyCritic e Saikuro.
+O projeto utiliza asseguintes ferramentas para desempenhar esse papel: RDoc, SimpleCov e RubyCritic.
 
 ### Documentação
 #### RDoc
@@ -156,6 +156,3 @@ Após a execução dos testes o relatório de cobertura será gerado na pasta co
 #### RubyCritic
     bundle exec rubycritic
 O relatório será gerado na pasta rubycritic_report.
-
-### Análise de Complexidade Ciclomática
-#### Saikuro
