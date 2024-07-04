@@ -13,3 +13,6 @@ Metrics/AbcSize:
 
 Metrics/CyclomaticComplexity:
   Max: 10
+
+Metrics/MethodLength:
+  Enabled: false
