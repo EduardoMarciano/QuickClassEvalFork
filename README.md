@@ -56,7 +56,7 @@ Já para instalar o Rails na versão 7.1.3.4, execute o seguinte comando:
 
 Após esses passos, você deve ver algo como:
 #### Verificação da instalação:
-    Rails 7.1.3.4
+    rails 7.1.3.4
 
 Caso contrário, recomendo depuração do log de erros e leitura da documentação oficial do framework.
 
@@ -74,22 +74,21 @@ Você verá um log de instalação seguido de um resumo das gems instaladas.
 Após a correta instalação das gems. Iremos fazer as migrações para a criação do Banco de Dados.
 
 #### Comando Rails para Criação do banco de dados:
-    Rails db:migrate
+    rails db:migrate
 
 Você verá uma série de mensagens sobre a criação das tabelas e relacionamentos.
 
 Com isso, você está pronto para povoar o Banco de Dados com as informações mínimas para o sitema funcionar. Isto deve ser feito com:
 #### Comando Rails para Preencher o banco de dados:
-    Rails db:seed
+    rails db:seed
 
 Sempre que quiser voltar para a versão inicial do sistema, rode o comando:
 #### Comando Rails para reiniciar o Banco de Dados:
-    Rails db:reset
+    rails db:reset
 
 Após isso, você poderá rodar o projeto com comando:
 #### Comando para iniciar o projeto:
-    Rails server
->>>>>>> caa2c1b (Update README.md)
+    rails server
 
 Caso tenha seguido à risca todos os passos supracitados, você verá o servidor rodando na porta:
 #### URL local do sistema:    
