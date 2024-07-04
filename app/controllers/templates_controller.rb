@@ -36,10 +36,6 @@ class TemplatesController < ApplicationController
     redirect_to templates_path
   end
 
-  def update
-    Rails.logger.debug("Received: #{params[:questions].inspect}")
-  end
-
   def destroy
     return redirect_to root_path unless user_authenticated && admin_user?
 
