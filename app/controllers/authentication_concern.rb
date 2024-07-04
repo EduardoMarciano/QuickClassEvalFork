@@ -34,6 +34,8 @@ module AuthenticationConcern
   end
 
   def user_belongs_to?(disciplines)
+    return false unless user_authenticated
+
     disciplines = [disciplines] unless disciplines.respond_to?(:each)
     disciplines.each do |discipline|
       return true unless StudentDiscipline.where(student_email: logged_user.email,
