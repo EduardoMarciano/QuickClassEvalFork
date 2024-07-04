@@ -74,21 +74,22 @@ Você verá um log de instalação seguido de um resumo das gems instaladas.
 Após a correta instalação das gems. Iremos fazer as migrações para a criação do Banco de Dados.
 
 #### Comando Rails para Criação do banco de dados:
-    rails db:migrate
+    Rails db:migrate
 
 Você verá uma série de mensagens sobre a criação das tabelas e relacionamentos.
 
 Com isso, você está pronto para povoar o Banco de Dados com as informações mínimas para o sitema funcionar. Isto deve ser feito com:
 #### Comando Rails para Preencher o banco de dados:
-    rails db:seed
+    Rails db:seed
 
 Sempre que quiser voltar para a versão inicial do sistema, rode o comando:
 #### Comando Rails para reiniciar o Banco de Dados:
-    rails db:reset
+    Rails db:reset
 
 Após isso, você poderá rodar o projeto com comando:
 #### Comando para iniciar o projeto:
-    rails server
+    Rails server
+>>>>>>> caa2c1b (Update README.md)
 
 Caso tenha seguido à risca todos os passos supracitados, você verá o servidor rodando na porta:
 #### URL local do sistema:    
