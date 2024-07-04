@@ -11,30 +11,36 @@ class Form < ApplicationRecord
   end
 
   def to_csv(csv, line)
-    line << "#{template_id}"
-    self.questions.to_csv(csv, line.dup, self)
+    line << template_id.to_s
+    questions.to_csv(csv, line.dup, self)
   end
 
   private
 
   def import_template_data
-    return if template.nil?
+    copy_questions unless template.nil?
+  end
 
+  # Copies the questions from the tempalte
+  def copy_questions
     template.questions.each do |question|
-      question_params = {
-        formlike: self,
-        label: question.label,
-        description: question.description,
-        format: question.format
-      }
       questions << case question.type
                    when 'MultipleChoiceQuestion'
-                     MultipleChoiceQuestion.new(question_params)
+                     MultipleChoiceQuestion.new(question_params(question))
                    when 'TextInputQuestion'
-                     TextInputQuestion.new(question_params)
+                     TextInputQuestion.new(question_params(question))
                    else # Usually a 'Question' class
-                     Question.new(question_params)
+                     Question.new(question_params(question))
                    end
     end
+  end
+
+  def question_params(question)
+    {
+      formlike: self,
+      label: question.label,
+      description: question.description,
+      format: question.format
+    }
   end
 end
