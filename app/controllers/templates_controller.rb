@@ -29,24 +29,8 @@ class TemplatesController < ApplicationController
     template = Template.create
     params[:questions].each do |question|
       question = question.permit(:label, :description, :type, :format)
-      next if !question[:label] || question[:label] == ''
-
       question[:description] = nil unless question[:description] != ''
-
-      case question[:type]
-      when 'MultipleChoiceQuestion'
-        next unless question[:format].present?
-
-        MultipleChoiceQuestion.create formlike: template,
-                                      label: question[:label],
-                                      description: question[:description],
-                                      format: question[:format]
-      when 'TextInputQuestion'
-        TextInputQuestion.create formlike: template, label: question[:label], description: question[:description]
-      else
-        flash[:error] = 'Tipo de pergunta inválido'
-        return redirect_to templates_path
-      end
+      new_question(template, question)
     end
     flash[:success] = 'Modelo de formulário criado com sucesso'
     redirect_to templates_path
@@ -79,18 +63,32 @@ class TemplatesController < ApplicationController
   def send_out_forms
     return redirect_to root_path unless user_authenticated && admin_user?
 
-    params.permit(:authenticity_token, :commit, :template_id, discipline_ids: [])
-
-    if params[:discipline_ids].nil?
-      flash[:error] = 'Nenhuma disciplina foi selecionada para envio'
-      return redirect_to manager_path
-    end
-
     params[:discipline_ids].each do |discipline_id|
       Form.create! template: Template.find(params[:template_id]), discipline: Discipline.find(discipline_id)
     end
 
-    flash[:success] = 'Formulários enviados com sucesso'
+    flash[:success] = 'Formulários enviados com sucesso' unless params[:discipline_ids].nil?
     redirect_to manager_path
+  end
+
+  private
+
+  def new_question(template, question)
+    case question[:type]
+    when 'MultipleChoiceQuestion'
+      return unless question[:format].present?
+
+      created = MultipleChoiceQuestion.create formlike: template,
+                                              label: question[:label],
+                                              description: question[:description],
+                                              format: question[:format]
+    when 'TextInputQuestion'
+      created = TextInputQuestion.create formlike: template, label: question[:label],
+                                         description: question[:description]
+    else
+      flash[:error] = 'Tipo de pergunta inválido'
+      redirect_to templates_path
+    end
+    created
   end
 end

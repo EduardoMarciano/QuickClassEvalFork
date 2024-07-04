@@ -56,7 +56,7 @@ Já para instalar o Rails na versão 7.1.3.4, execute o seguinte comando:
 
 Após esses passos, você deve ver algo como:
 #### Verificação da instalação:
-    Rails 7.1.3.4
+    rails 7.1.3.4
 
 Caso contrário, recomendo depuração do log de erros e leitura da documentação oficial do framework.
 
