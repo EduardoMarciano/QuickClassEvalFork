@@ -27,7 +27,7 @@ group :development, :test do
   gem 'rdoc'
   gem 'simplecov', require: false
   gem 'rubycritic', require: false
-  gem 'saikuro', require: false
+  gem 'metric_fu-Saikuro', require: false
 end
 
 group :development do
