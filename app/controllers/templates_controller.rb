@@ -46,7 +46,7 @@ class TemplatesController < ApplicationController
     params.permit(:authenticity_token, :_method, :controller, :action, :id)
     return unless params[:_method] == 'delete' && params[:action] == 'destroy' && params[:controller] == 'templates'
 
-    Template.find(params[:id]).delete
+    Template.find(params[:id]).destroy!
     redirect_to templates_path
   end
 
