@@ -91,7 +91,6 @@ DEFAULT_TEMPLATES = {
 }.freeze
 
 DEFAULT_TEMPLATES.each_value do |questions|
-  puts 'Creating template...'
   template = Template.create
   questions.each do |question|
     case question[:type]
@@ -99,10 +98,7 @@ DEFAULT_TEMPLATES.each_value do |questions|
       MultipleChoiceQuestion.create formlike: template, label: question[:label], format: question[:format]
     when 'TextInputQuestion'
       TextInputQuestion.create formlike: template, label: question[:label]
-    else
-      puts 'Invalid question type. Skipping...'
     end
-    puts "Pergunta \"#{question[:label]}\" (#{question[:type]}) criada com sucesso"
   end
 end
 
@@ -125,11 +121,7 @@ if user.nil?
   user.created_at = user_attributes[:created_at]
   user.is_admin = user_attributes[:is_admin]
 
-  if user.save
-    puts 'Usuário criado com sucesso!'
-  else
-    puts "Erro ao criar usuário: #{user.errors.full_messages.join(', ')}"
-  end
+  puts "Erro ao criar usuário: #{user.errors.full_messages.join(', ')}" unless user.save
 else
   puts 'Usuário já existe.'
 end
