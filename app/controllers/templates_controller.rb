@@ -61,15 +61,23 @@ class TemplatesController < ApplicationController
 
   # POST: Gives students of disciplines access to a form copied from the given template
   def send_out_forms
-    return redirect_to root_path unless user_authenticated && admin_user? && params[:discipline_ids].respond_to?(:each)
+    return redirect_to root_path unless user_authenticated && admin_user?
 
-    send_form_to_disciplines(params[:discipline_ids], params[:template_id])
+    send_form_to_disciplines(params[:discipline_ids], params[:template_id]) unless params[:discipline_ids].nil?
 
-    flash[:success] = 'Formulários enviados com sucesso' unless params[:discipline_ids].nil?
+    form_send_result_flash
     redirect_to manager_path
   end
 
   private
+
+  def form_send_result_flash
+    if !params[:discipline_ids] || params[:discipline_ids].empty?
+      flash[:error] = 'Nenhuma disciplina foi selecionada para envio'
+    else
+      flash[:success] = 'Formulários enviados com sucesso'
+    end
+  end
 
   def send_form_to_disciplines(discipline_ids, template_id)
     discipline_ids.each do |discipline_id|

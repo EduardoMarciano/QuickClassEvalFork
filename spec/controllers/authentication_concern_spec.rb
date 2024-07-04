@@ -115,9 +115,10 @@ RSpec.describe DummyController, type: :controller do
     context 'when logged user belongs to the discipline' do
       before do
         allow(controller).to receive(:logged_user).and_return(user)
+        allow(controller).to receive(:user_authenticated).and_return(true)
       end
 
-      it 'returns true if it belongs to any of the disciplines' do
+      it 'returns true' do
         expect(controller.user_belongs_to?([discipline, another_discipline])).to be true
       end
     end

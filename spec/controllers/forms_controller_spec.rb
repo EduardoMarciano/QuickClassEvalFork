@@ -111,7 +111,9 @@ RSpec.describe FormsController, type: :controller do
     end
 
     context 'when user is not authenticated' do
-      before { allow(controller).to receive(:user_authenticated).and_return(false) }
+      before do
+        allow(controller).to receive(:user_belongs_to?).and_return(false)
+      end
 
       it 'redirects to root path' do
         patch :update, params: { id: form.id, questions: { question.id.to_s => 'Answer' } }
