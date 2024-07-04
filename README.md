@@ -154,5 +154,5 @@ Após a execução dos testes o relatório de cobertura será gerado na pasta co
 
 ### Análise de Qualidade
 #### RubyCritic
-    bundle exec rubycritic
+    rubycritic app
 O relatório será gerado na pasta rubycritic_report.
