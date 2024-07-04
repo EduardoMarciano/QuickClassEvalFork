@@ -24,8 +24,10 @@ group :development, :test do
   gem 'faker'
   gem 'rspec-rails'
   gem 'rails-controller-testing'
-  gem 'rubycritic'
+  gem 'rdoc'
   gem 'simplecov', require: false
+  gem 'rubycritic', require: false
+  gem 'saikuro', require: false
 end
 
 group :development do
