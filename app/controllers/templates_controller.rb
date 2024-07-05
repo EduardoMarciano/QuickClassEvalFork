@@ -6,9 +6,7 @@ class TemplatesController < ApplicationController
   include AuthenticationConcern
 
   ##
-  # Displays a list of templates.
-  #
-  # If the user is an admin, all templates are returned.
+  # Displays all templates.
   #
   # @return [void]
   def index
@@ -41,6 +39,7 @@ class TemplatesController < ApplicationController
   ##
   # Creates a new template based on user input.
   #
+  # @param [Integer] id The ID of the template to be removed.
   # @return [void]
   def create
     return redirect_to root_path unless user_authenticated && admin_user?
