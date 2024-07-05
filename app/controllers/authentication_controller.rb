@@ -1,10 +1,21 @@
+# Controller handling authentication-related actions such as login and logout.
+#
+# This controller includes AuthenticationConcern to provide authentication and session management methods.
+#
 class AuthenticationController < ApplicationController
   include AuthenticationConcern
 
+  # Renders the login form.
   def login
     render 'login'
   end
 
+  # Processes the login request.
+  #
+  # If successful, creates a session cookie and redirects to the root path.
+  # If email or password is blank, redirects to the login path with an error message.
+  # If authentication fails, redirects to the login path with an error message.
+  #
   def process_login
     user = User.find_by(email: params[:email])
     if params[:email].blank? || params[:password].blank?
@@ -22,6 +33,9 @@ class AuthenticationController < ApplicationController
     end
   end
   
+  # Logs out the current user by deleting the session cookie and clearing the session key in the database.
+  # Redirects to the login path after logout.
+  #
   def logout
     if cookies.signed[:user_info].present?
       cookie_value = cookies.signed[:user_info]
@@ -36,6 +50,12 @@ class AuthenticationController < ApplicationController
     redirect_to login_path
   end
 
+  # Creates a signed session cookie with the user's session key and email.
+  #
+  # @param user [User] The User object for whom the session cookie is created.
+  # @param key [String] The session key used for authentication.
+  #
+  
   private def create_cookie(user, key)
     timestamp = Time.current.to_i
     cookie_value = "#{key}_#{timestamp}_#{user.email}"

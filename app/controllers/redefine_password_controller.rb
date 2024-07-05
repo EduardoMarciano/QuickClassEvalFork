@@ -1,5 +1,12 @@
+# Controller handling password reset actions.
+#
+# This controller includes AuthenticationConcern to provide authentication methods.
+#
 class RedefinePasswordController < ApplicationController
   include AuthenticationConcern
+
+  # Renders the password reset form if the user is authenticated.
+  # If the user is not authenticated, redirects to the root path with an alert message.
     def index
       if user_authenticated
         render :index
@@ -8,6 +15,11 @@ class RedefinePasswordController < ApplicationController
       end
     end
     
+  # Handles the password reset process.
+  #
+  # Validates the presence of user email, password, and password confirmation.
+  # Checks if the passwords match and updates the user's password if valid.
+  # Redirects to the login path on success, or re-renders the form with error messages on failure.
     def redefine
         user_info = cookies.signed[:user_info]
         key, timestamp, email = user_info.split('_')
@@ -48,6 +60,9 @@ class RedefinePasswordController < ApplicationController
     
       private
     
+  # Permits only the password and password confirmation parameters for the user.
+  #
+  # @return [ActionController::Parameters] the permitted parameters
       def user_params
         params.require(:user).permit(:password, :password_confirmation)
       end
