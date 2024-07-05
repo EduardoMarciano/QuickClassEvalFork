@@ -1,3 +1,4 @@
+# Handles form-related requests within the application.
 class FormsController < ApplicationController
   include ManagerHelper
   include AuthenticationConcern

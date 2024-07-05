@@ -6,6 +6,11 @@ class Template < ApplicationRecord
   has_many :form, dependent: :nullify
   has_many :questions, as: :formlike
 
+  # @!group Instance Methods
+
+  # Provides a string representation of the template in the format "Modelo ##{id}".
+  #
+  # @return [String] A string representation of the template.
   def to_s
     "Modelo \##{self[:id]}"
   end
