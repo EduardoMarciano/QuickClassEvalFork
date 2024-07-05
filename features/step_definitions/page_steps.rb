@@ -37,7 +37,7 @@ Then(/^(?:I )?should be on the (\w+) page$/) do |page_name|
   when 'send'
     expect(page).to have_css('#template_id')
   when 'templates'
-    visit "/templates"
+    expect(page).to have_text('Modelos Disponíveis')
   else
     raise "Unknown 'should be' for page: #{page_name}"
   end
