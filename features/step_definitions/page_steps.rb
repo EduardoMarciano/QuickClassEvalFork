@@ -7,6 +7,8 @@ Given(/^I am on the(?: main)? (\w+) page$/) do |page_name|
     visit root_path
   when 'evaluations'
     visit evaluations_path
+  when 'create'
+    visit create_path
   when 'send'
     step 'I am an administrator'
     visit to_send_templates_path

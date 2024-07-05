@@ -1,37 +1,48 @@
-Feature: Set Password from Registration Email
+Feature: Create account
 
-  Scenario: Set password from registration email
-    Given I am a User who has been notified to register myself by an email
-    When I click on the registration link in the email
-    Then I should be redirected to the forgot_password page
-    And I should enter my email address
-    And I should submit the password reset request
-    Then I should receive an email with registration instructions
-    And  I should be redirected totoken_forgot_password_page
-
-  Scenario: Reset password with correct code
+  Scenario: Create account with correct code
     Given I have received a password reset email with a code
-    And I am on the token_forgot_password page
+    And I am on the create page
     When I enter the correct reset code
-    Then I should be redirected to the reset_password page
-
-  Scenario: Reset password with incorrect code
-    Given I have received a password reset email with a code
-    And I am on the token_forgot_password page
-    When I enter the incorrect reset code
-    Then I should see an error message
-
-  Scenario: Change password after entering new password
-    Given I am on the reset_password page
-    And I enter my new password
-    And I confirm my new password
-    When I submit the new password
+    And I enter an email that has been notified
+    And I enter matching password and confirmation password
+    And I click on Sign Up
     Then I should be redirected to the login page
-    And I should see a success message
 
-  Scenario: Reset password with mismatched passwords
-    Given I am on the reset_password page
-    And I enter my new password
-    And I enter mismatched passwords
-    When I submit the new password
-    Then I should see an error message
+  Scenario: Create account with Incorrect reset code
+    Given I have received a password reset email with a code
+    And I am on the create page
+    When I enter an incorrect reset code
+    And I enter an email that has not been notified
+    And I enter matching password and confirmation password
+    And I click on Sign Up
+    Then I should see an error message "Email ou chave de cadastro inválidos, entre em contato com seu coordenador."
+
+  Scenario: Create account with not notified email
+    Given I have received a password reset email with a code
+    And I am on the create page
+    When I enter the correct reset code
+    And I enter an email that has not been notified
+    And I enter matching password and confirmation password
+    And I click on Sign Up
+    Then I should see an error message "Email ou chave de cadastro inválidos, entre em contato com seu coordenador."
+
+  Scenario: Create account with already registered email
+    Given I have received a password reset email with a code
+    And I am on the create page
+    When I enter the correct reset code
+    And I enter an email that has been notified
+    And the email has already been registered
+    And I enter matching password and confirmation password
+    And I click on Sign Up
+    Then I should see an error message "Email já cadastrado, entre em contato com o administrador."
+
+  Scenario: Create account with mismatching passwords
+    Given I have received a password reset email with a code
+    And I am on the create page
+    When I enter the correct reset code
+    And I enter an email that has been notified
+    And I enter a password
+    And I enter a different confirmation password
+    And I click on Sign Up
+    Then I should see an error message "As senhas devem coincidir."
