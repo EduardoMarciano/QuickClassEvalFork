@@ -193,7 +193,7 @@ class Semester < ApplicationRecord
   end
 
   ##
-  # Transforms the semester to a CSV file line and calls its disciplines csv formatting method.
+  # Transforms the semester to a CSV file line and calls its disciplines' csv formatting method.
   #
   # Parameters:
   #   csv - CSV

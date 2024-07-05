@@ -1,6 +1,6 @@
 # == Discipline
 #
-# Defines and stores current and previous semesters's disciplines of the application.
+# Defines and stores current and previous semesters' disciplines of the application.
 #
 # Attributes:
 #   id: Integer, primary key
@@ -198,7 +198,7 @@ class Discipline < ApplicationRecord
   end
 
   ##
-  # Transforms the discipline to a CSV line and calls its forms csv formatting method. 
+  # Transforms the discipline to a CSV line and calls its forms' csv formatting method. 
   #
   # Parameters:
   #   csv - CSV
