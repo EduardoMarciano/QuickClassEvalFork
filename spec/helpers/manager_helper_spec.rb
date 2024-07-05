@@ -36,7 +36,7 @@ RSpec.describe ManagerHelper, type: :helper do
     it 'returns the current semester' do
       allow(Semester).to receive(:current_semester).and_return(semester)
 
-      expect(helper.current_semester?).to eq(semester)
+      expect(helper.current_semester).to eq(semester)
     end
   end
 end
