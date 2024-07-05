@@ -26,14 +26,19 @@ class TemplatesController < ApplicationController
   def create
     return redirect_to root_path unless user_authenticated && admin_user?
 
-    template = Template.create
-    params[:questions].each do |question|
-      question = question.permit(:label, :description, :type, :format)
-      question[:description] = nil unless question[:description] != ''
-      new_question(template, question)
+    if params[:questions].nil?
+      flash[:error] = 'Crie pelo menos uma questão.'
+      redirect_to "/templates/new"
+    else
+      template = Template.create
+      params[:questions].each do |question|
+        question = question.permit(:label, :description, :type, :format)
+        question[:description] = nil unless question[:description] != ''
+        new_question(template, question)
+      end
+      flash[:success] = 'Modelo de formulário criado com sucesso'
+      redirect_to templates_path
     end
-    flash[:success] = 'Modelo de formulário criado com sucesso'
-    redirect_to templates_path
   end
 
   def destroy

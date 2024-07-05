@@ -27,7 +27,3 @@ end
 
 Then('I should download a CSV file for the disciplines of that semester') do
 end
-
-Then('I should see {string}') do |string|
-  expect(page).to have_text(string)
-end
