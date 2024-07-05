@@ -21,7 +21,6 @@ Given('A manager send a evaluation') do
   checkboxes_to_select.each do |id|
     check("discipline_ids_#{id}")
   end
-  puts Template.all.inspect
 
   click_button(:commit)
 end

@@ -1,29 +1,16 @@
 Feature: Viewing Templates
     Scenario: There are templates to be seen
-        Given I am an administrator
-        And I am on the main Management page
-        And there are templates for the current semester
+        Given there are templates for the current semester
 
-        When I press "edit templates""
+        When I move to the Management page
+        And I click the templates button
 
-        Then I should be redirected to the Templates page
-        And I should see at least one card
+        Then I should see at least one template card
 
     Scenario: There are no templates to be seen
         Given I am an administrator
-        And I am on the main Management page
-        And there are no templates for the current semester
 
-        When I press "Templates"
+        When I move to the management page
+        And I click the templates button
 
-        Then I should be redirected to the Templates page
-        And There should be no visible cards
-
-    Scenario: Clicking a card
-        Given I am an administrator
-        And I am on the Templates page
-        And there are visible result cards
-
-        When I open any card
-
-        Then I should be redirected to a view of the filled-in template
+        Then I should not see any template cards

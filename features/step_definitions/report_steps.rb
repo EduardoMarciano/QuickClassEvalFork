@@ -1,33 +1,27 @@
-Given('I have a form for discipline "Estrutura de Dados", with professor "DANIEL DE PAULA PORTO" and semester "2020.1"') do
+Given('I have a form for a discipline') do
+  Semester.destroy_all
+  Template.destroy_all
   Discipline.destroy_all
   Form.destroy_all
 
-  discipline = Discipline.create!(name: 'Estrutura de Dados', code: 'CIC0090', professor_registration: '000',
-                                  semester_id: 1)
-  form = discipline.forms.create!
-  form.questions.create!(type: 'MultipleChoiceQuestion',
-                         label: 'Como você avalia a clareza das explicações do professor durante as aulas?',
-                         format: 'Muito clara|Clara|Nem clara, nem confusa|Pouco clara|Nada clara')
+  Semester.create(id: 1, half: false, year: 2020)
+  Template.create(id: 1)
+  Discipline.create(id: 1, semester_id: 1)
+  Form.create(template_id: 1, discipline_id: 1)
 end
 
 Given('I have no semesters registered') do
   Semester.destroy_all
 end
 
-When('I click Baixar Resultados') do
-  visit 'evaluations/1.csv'
-end
-
-When('I click Gerar CSV de Resultados deste Semestre') do
-  visit 'semesters/current.csv'
-end
-
 Then('I should download a CSV file for that discipline') do
+  expect(CSV.parse(page.body).transpose).to eq([["Template"]])
 end
 
 Then('I should download a CSV file for the disciplines of that semester') do
+  expect(CSV.parse(page.body).transpose).to eq([["Disciplina; Template"]])
 end
 
-Then('I should see {string}') do |string|
-  expect(page).to have_text(string)
+Then('I should download a CSV file for all available semesters') do
+  expect(CSV.parse(page.body).transpose).to eq([["Semestre; Disciplina; Template"]])
 end

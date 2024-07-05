@@ -1,11 +1,25 @@
+<% if flash[:error] %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+
 <%= link_to 'Todos os modelos', templates_path %>
 <br>
 <h1 class='text-center'><i>Novo modelo<i></h1>
 
 <%= form_with model: @template, local: true do |form| %>
     <div id="questions-container">
-        <%= form.fields_for :questions, @template.questions.build do |question_form| %>
-        <% end %>
+        <label for="question_label">Título</label>
+        <br>
+        <input type="text" name="questions[][label]" id="question_label">
+        <br>
+        <label for="question_description">Descrição</label>
+        <br>
+        <textarea name="questions[][description]" id="question_description"></textarea>
+        <br>
+        <input type="hidden" name="questions[][type]" value="TextInputQuestion">
+        <hr>
     </div>
     <div id="add-question-buttons" class="text-center">
         <button type="button" id="add-textinputquestion" class="btn btn-secondary">
