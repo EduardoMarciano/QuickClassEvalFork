@@ -1,3 +1,7 @@
+# Represents the availability of sign-up keys for user registration in the application.
+#
+# SignUpAvailable manages the creation and availability of sign-up keys using SecureRandom for generating keys.
+#
 require 'securerandom'
 class SignUpAvailable < ApplicationRecord
   def self.check_availability(email, key)

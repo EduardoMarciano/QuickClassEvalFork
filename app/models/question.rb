@@ -1,3 +1,8 @@
+# Represents a question associated with a form or another form-like entity in the application.
+#
+# Questions can belong to various form-like entities through polymorphic association,
+# and can have multiple answers associated with them.
+#
 class Question < ApplicationRecord
   belongs_to :formlike, polymorphic: true
   has_many :answers

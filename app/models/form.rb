@@ -1,3 +1,8 @@
+# Represents a form associated with a specific discipline in the application.
+#
+# Forms can optionally belong to a template and are associated with multiple questions.
+# Before creation, Form imports data from a template (if provided).
+#
 class Form < ApplicationRecord
   belongs_to :template, optional: true
   has_many :questions, as: :formlike
