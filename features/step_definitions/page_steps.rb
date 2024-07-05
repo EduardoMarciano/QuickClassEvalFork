@@ -10,6 +10,8 @@ Given(/^I am on the(?: main)? (\w+) page$/) do |page_name|
   when 'send'
     step 'I am an administrator'
     visit to_send_templates_path
+  when 'templates'
+    visit templates_path
   else
     raise "Unknown page: #{page_name}"
   end
@@ -30,6 +32,8 @@ Then(/^(?:I )?should be on the (\w+) page$/) do |page_name|
     raise "Unhandled page (how do I know i'm here?): #{page_name}"
   when 'send'
     expect(page).to have_css('#template_id')
+  when 'templates'
+    visit "/templates"
   else
     raise "Unknown 'should be' for page: #{page_name}"
   end

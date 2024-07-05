@@ -1,3 +1,9 @@
+<% if flash[:error] %>
+  <div class="alert alert-danger">
+    <%= flash[:error] %>
+  </div>
+<% end %>
+
 <%= link_to 'Todos os modelos', templates_path %>
 <br>
 <h1 class='text-center'><i>Novo modelo<i></h1>
