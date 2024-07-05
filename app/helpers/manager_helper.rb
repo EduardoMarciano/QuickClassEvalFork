@@ -1,4 +1,9 @@
+# Module to provide helper methods related to user management and current semester.
 module ManagerHelper
+  # Checks if the current user is an admin based on stored user info in cookies.
+  #
+  # @return [Boolean] True if the current user is an admin, false otherwise.
+  #
   def admin_user?
     user_info = cookies.signed[:user_info]
     return false unless user_info.present?
@@ -10,7 +15,11 @@ module ManagerHelper
     user&.is_admin || false
   end
 
-  def current_semester?
+  # Retrieves the current semester.
+  #
+  # @return [Semester] The current semester object.
+  #
+  def current_semester
     Semester.current_semester
   end
 end
