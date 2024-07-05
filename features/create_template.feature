@@ -14,7 +14,8 @@ Feature: Create Template
         Given I have no templates
         When I click "Novo modelo" link
       	And I click "+ Texto" button
-        And I fill "Título" with "1+1?" and "Descrição" with "Quanto é?"
+        And I fill "Título" with "1+1?"
+        And I fill "Descrição" with "Quanto é?"
       	And I click "Salvar modelo" button
         Then I should be on the templates page
       	And I should see "Modelo #1"	
@@ -24,4 +25,4 @@ Feature: Create Template
       	Given I have no templates
         When I click "Novo modelo" link
       	And I click "Salvar modelo" button
-      	Then I should see "Crie pelo menos uma questão."
+      	Then I should see "Crie pelo menos uma questão válida."

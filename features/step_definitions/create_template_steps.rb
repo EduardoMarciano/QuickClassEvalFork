@@ -10,9 +10,12 @@ When(/^I click "(.*?)" button$/) do |button|
     find_button(button).click
 end
 
-When(/^I fill "Título" with "([^"]*)" and "Descrição" with "([^"]*)"$/) do |title, description|
-    Template.create(id: 1)
-    Question.create(type: "TextInputQuestion", description: description, label: title, formlike_type: "Template", formlike_id: 1)
+When(/^I fill "Título" with "([^"]*)"$/) do |content|
+    find_by_id("question_label").set(content)
+end
+
+When(/^I fill "Descrição" with "([^"]*)"$/) do |content|
+    find_by_id("question_description").set(content)
 end
 
 Then(/^I should see "(.*?)"$/) do |content|
