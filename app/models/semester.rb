@@ -3,10 +3,10 @@
 # Defines and stores current and previous semesters of the application.
 #
 # Attributes:
-#   id: integer, primary key
+#   id: Integer, primary key
 #   half: TrueClass/FalseClass, first or second semester of the year
-#   year: integer, current year of said semester
-#
+#   year: Integer, current year of said semester
+#   
 # Usage:
 #   semester = Semester.create(half: false, year: 2020)
 #   semester.save
