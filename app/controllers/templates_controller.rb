@@ -26,8 +26,8 @@ class TemplatesController < ApplicationController
   def create
     return redirect_to root_path unless user_authenticated && admin_user?
 
-    if params[:questions].nil?
-      flash[:error] = 'Crie pelo menos uma questão.'
+    if params[:questions].nil? || (params[:questions][0]["label"] == "" || params[:questions][0]["description"] == "")
+      flash[:error] = 'Crie pelo menos uma questão válida.'
       redirect_to "/templates/new"
     else
       template = Template.create
