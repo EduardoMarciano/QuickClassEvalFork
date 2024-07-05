@@ -1,11 +1,27 @@
+# Module providing authentication-related methods for user authentication and authorization.
+#
+# This concern extends ActiveSupport::Concern and provides methods to:
+# - Authenticate users based on cookie information.
+# - Retrieve logged-in user information.
+# - Verify user authentication from controllers.
+# - Check if a user belongs to specified disciplines.
+#
 module AuthenticationConcern
   extend ActiveSupport::Concern
 
+  # Checks if a user is authenticated based on cookie information.
+  #
+  # @return [Boolean] True if the user is authenticated, false otherwise.
+  #
   def user_authenticated
     user_info = cookies.signed[:user_info]
     check_authentication_from_controller(user_info)
   end
 
+  # Retrieves the logged-in user based on authenticated cookie information.
+  #
+  # @return [User, nil] The logged-in User object, or nil if not authenticated.
+  #
   def logged_user
     return unless user_authenticated
 
@@ -13,6 +29,11 @@ module AuthenticationConcern
     User.find_by(email:)
   end
 
+  # Checks user authentication status from controller using cookie value.
+  #
+  # @param cookie_value [String] The signed cookie value containing user info.
+  # @return [Boolean] True if authentication is valid, false otherwise.
+  #
   def check_authentication_from_controller(cookie_value)
     return false unless cookie_value.present?
 
@@ -33,6 +54,11 @@ module AuthenticationConcern
     end
   end
 
+  # Checks if the logged-in user belongs to specified disciplines.
+  #
+  # @param disciplines [Array<Discipline>] Array of Discipline objects to check against.
+  # @return [Boolean] True if user belongs to any of the specified disciplines, false otherwise.
+  #
   def user_belongs_to?(disciplines)
     return false unless user_authenticated
 

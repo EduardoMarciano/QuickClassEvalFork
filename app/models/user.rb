@@ -1,3 +1,7 @@
+# Represents a user of the application.
+#
+# Users are individuals who have accounts and interact with various features within the application.
+#
 class User < ApplicationRecord
   has_many :answers
 

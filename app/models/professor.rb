@@ -1,3 +1,7 @@
+# Represents a professor in the application.
+#
+# Professors are individuals who teach courses or classes within the educational institution.
+#
 class Professor < ApplicationRecord
   def self.create_by_json(docente_data)
     registration_number = docente_data["registration"]

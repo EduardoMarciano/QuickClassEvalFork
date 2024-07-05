@@ -1,18 +1,7 @@
-# == Form
+# Represents a form associated with a specific discipline in the application.
 #
-# Defines and stores current and previous disciplines' forms of the application.
-#
-# Attributes:
-#   id: Integer, primary key
-#   template_id: Integer, foreign key
-#   questions_id: Array[Integer], foreign key
-#   discipline_id: Integer, foreign key
-#   
-# Usage:
-#   Template.create()
-#   Discipline.create()
-#   form = Form.create(template_id: 1, discipline_id: 1)
-#   form.save
+# Forms can optionally belong to a template and are associated with multiple questions.
+# Before creation, Form imports data from a template (if provided).
 #
 class Form < ApplicationRecord
   belongs_to :template, optional: true

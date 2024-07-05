@@ -144,7 +144,7 @@ O projeto utiliza asseguintes ferramentas para desempenhar esse papel: RDoc, Sim
 
 ### Documentação
 #### RDoc
-    rdoc
+    rdoc app
 A documentação será criada na pasta doc na raiz do projeto.
 
 ### Análise de Cobertura
